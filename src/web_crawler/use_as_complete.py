@@ -25,8 +25,14 @@ async def main():
             fetch_status(session, "http://www.example.com", 5),
         ]
 
-        for finished_task in asyncio.as_completed(fetchers):
-            print(await finished_task)
+        for finished_task in asyncio.as_completed(fetchers, timeout=6):
+            try:
+                print(await finished_task)
+            except asyncio.TimeoutError:
+                print("I got a timeout error...")
+
+        for task in asyncio.tasks.all_tasks():
+            print(task)
 
 
 asyncio.run(main())
