@@ -1,5 +1,6 @@
 import asyncio
-from utils import get_connection
+import asyncpg
+from utils import get_connection, get_pool
 
 
 product_query = """
@@ -17,12 +18,19 @@ product_query = """
     WHERE p.product_id = 100"""
 
 
+async def query_product(pool):
+    async with pool.acquire() as connection:
+        return await connection.fetchrow(product_query)
+
+
 async def main():
-    conn = await get_connection()
+    async with get_pool() as pool:
+        results = await asyncio.gather(
+            query_product(pool),
+            query_product(pool),
+        )
 
-    queries = [conn.execute(product_query), conn.execute(product_query)]
-
-    results = await asyncio.gather(*queries)
+        print(results)
 
 
 asyncio.run(main())
