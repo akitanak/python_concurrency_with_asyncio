@@ -18,6 +18,14 @@ yarl = ">=1.0,<2.0"
 speedups = ["aiodns", "brotlipy", "cchardet"]
 
 [[package]]
+category = "main"
+description = "Generator-based operators for asynchronous iteration"
+name = "aiostream"
+optional = false
+python-versions = "*"
+version = "0.4.2"
+
+[[package]]
 category = "dev"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 name = "appdirs"
@@ -223,7 +231,7 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "e7b024755ec9d89d367c471c077126b6950b77bf5889ed555223fab1d325dffb"
+content-hash = "6b22538d22a021b5adb6a6bc52016cc7405a2437b275718471563582b20f16f3"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -265,6 +273,9 @@ aiohttp = [
     {file = "aiohttp-3.7.4-cp39-cp39-win32.whl", hash = "sha256:fbd3b5e18d34683decc00d9a360179ac1e7a320a5fee10ab8053ffd6deab76e0"},
     {file = "aiohttp-3.7.4-cp39-cp39-win_amd64.whl", hash = "sha256:40bd1b101b71a18a528ffce812cc14ff77d4a2a1272dfb8b11b200967489ef3e"},
     {file = "aiohttp-3.7.4.tar.gz", hash = "sha256:5d84ecc73141d0a0d61ece0742bb7ff5751b0657dab8405f899d3ceb104cc7de"},
+]
+aiostream = [
+    {file = "aiostream-0.4.2.tar.gz", hash = "sha256:ac129a0e6ccbf62f3d0815b20aa1b82dec3b77291909363227dc8068455c8367"},
 ]
 appdirs = [
     {file = "appdirs-1.4.4-py2.py3-none-any.whl", hash = "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"},
