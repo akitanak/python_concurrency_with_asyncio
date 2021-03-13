@@ -1,3 +1,4 @@
+import multiprocessing
 import time
 from multiprocessing import Pool
 
@@ -15,6 +16,7 @@ def count(count_to: int) -> int:
 if __name__ == "__main__":
     start_time = time.time()
 
+    print(f"cpu num: {multiprocessing.cpu_count()}")
     with Pool() as process_pool:
         counter_1 = process_pool.apply(count, args=(100000000,))
         counter_2 = process_pool.apply(count, args=(200000000,))
