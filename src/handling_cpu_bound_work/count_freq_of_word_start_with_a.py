@@ -31,13 +31,28 @@ def merge_frequencies(first: Dict[str, int], second: Dict[str, int]) -> Dict[str
     return merged
 
 
+async def reduce(loop, pool, counters, chunk_size) -> Dict[str, int]:
+    chunks: List[List[Dict]] = list(partition(counters, chunk_size))
+    reducers = []
+    while len(chunks[0]) > 1:
+        for chunk in chunks:
+            reducer = functools.partial(functools.reduce, merge_frequencies, chunk)
+            reducers.append(loop.run_in_executor(pool, reducer))
+
+        reducer_chunks = await asyncio.gather(*reducers)
+        chunks = list(partition(reducer_chunks, chunk_size))
+        reducers.clear()
+    return chunks[0][0]
+
+
 async def main(partition_size: int):
     with open("data/google_books/googlebooks-eng-all-1gram-20120701-a") as f:
         contents = f.readlines()
         loop = asyncio.get_event_loop()
         tasks = []
-        start = time.time()
         with concurrent.futures.ProcessPoolExecutor() as pool:
+            start = time.time()
+
             for chunk in partition(contents, partition_size):
                 tasks.append(
                     loop.run_in_executor(
@@ -46,7 +61,7 @@ async def main(partition_size: int):
                 )
 
             intermediate_results = await asyncio.gather(*tasks)
-            final_result = functools.reduce(merge_frequencies, intermediate_results)
+            final_result = await reduce(loop, pool, intermediate_results, 500)
 
             print(f"Aardvark has appeared {final_result['Aardvark']} times.")
 
@@ -55,4 +70,4 @@ async def main(partition_size: int):
 
 
 if __name__ == "__main__":
-    asyncio.run(main(partition_size=60000))
+    asyncio.run(main(partition_size=120000))
