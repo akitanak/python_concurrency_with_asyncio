@@ -1,7 +1,7 @@
 import asyncio
 from asyncio import AbstractEventLoop
 from threading import Thread
-from .tkinter_gui import LoadTester
+from tkinter_gui import LoadTester
 
 
 class ThreadedEventLoop(Thread):

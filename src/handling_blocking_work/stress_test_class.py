@@ -7,13 +7,15 @@ from aiohttp import ClientSession
 
 class StressTest:
     _completed_requests: int = 0
-    _load_test_future: Optional[Future[None]] = None
+    _load_test_future: Future = None
 
-    def __init__(self,
-                 loop: AbstractEventLoop,
-                 usr: str,
-                 total_requests: int,
-                 callback: Callable([int, int], None]):
+    def __init__(
+        self,
+        loop: AbstractEventLoop,
+        url: str,
+        total_requests: int,
+        callback: Callable[[int, int], None],
+    ):
         self._loop = loop
         self._url = url
         self._total_requests = total_requests
@@ -40,5 +42,7 @@ class StressTest:
 
     async def _make_requests(self):
         async with ClientSession() as session:
-            reqs = [self._get_url(session, self._url) for _ in range(self._total_requests)]
+            reqs = [
+                self._get_url(session, self._url) for _ in range(self._total_requests)
+            ]
             await asyncio.gather(*reqs)

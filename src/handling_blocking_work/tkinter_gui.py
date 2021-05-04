@@ -2,7 +2,7 @@ from tkinter import Tk
 from tkinter import Label
 from tkinter import Entry
 from tkinter import ttk
-from .stress_test_class import StressTest
+from stress_test_class import StressTest
 
 
 class LoadTester(Tk):
@@ -10,7 +10,7 @@ class LoadTester(Tk):
 
     def __init__(self, loop, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
-        self.loop = loop
+        self._loop = loop
 
         self._url_label = Label(self, text="URL:")
         self._url_label.grid(column=0, row=0)
